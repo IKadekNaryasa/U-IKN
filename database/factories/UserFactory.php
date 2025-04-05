@@ -24,10 +24,17 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => Str::uuid(),
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'username' => fake()->unique()->userName(),
+            'password' => static::$password ??= Hash::make('12345678'),
+            'password_updated_at' => now(),
+            'logged_in' => false,
+            'status' => 'waiting_verification',
+            'role' => 'technician',
+            'contact' => '08' . fake()->unique()->numerify('##########'),
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
     }
@@ -37,8 +44,21 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    public function loggedIn()
+    {
+        return $this->state(fn(array $attributes) => [
+            'logged_in' => true,
+        ]);
+    }
+    public function head()
+    {
+        return $this->state(fn(array $attributes) => [
+            'role' => 'head',
         ]);
     }
 }
