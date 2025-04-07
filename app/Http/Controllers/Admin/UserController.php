@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Mail\VerificationMail;
 use App\Models\user;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\VerificationMail;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
-
 
 class UserController extends Controller
 {
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('admin.users', [
+        return view('admin.users.users', [
             'active' => 'users',
             'link' => 'IKN Project | Users',
             'open' => 'view_users',
@@ -35,7 +36,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.create', [
+        return view('admin.users.create', [
             'active' => 'users',
             'link' => 'IKN Project | Users',
             'open' => 'create_user',
@@ -104,22 +105,37 @@ class UserController extends Controller
      */
     public function edit(user $user)
     {
-        //
+        return view('admin.users.edit', [
+            'active' => 'users',
+            'open' => '',
+            'link' => "Users | Edit | $user->name",
+            'user' => $user
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, user $user)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(user $user)
     {
-        //
+        if ($user->id === Auth::user()->id) {
+            return redirect()->back()->withErrors(['error' => 'Can not delete data because this acount still login in your browser!']);
+        }
+
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('success', 'Acount deleted!');
+    }
+
+    public function profile()
+    {
+        return view('admin.profile', [
+            'active' => '',
+            'open' => '',
+            'link' => 'Profile',
+        ]);
     }
 }

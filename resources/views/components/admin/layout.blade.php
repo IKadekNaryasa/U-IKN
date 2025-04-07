@@ -197,7 +197,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
@@ -275,9 +275,10 @@
                         data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <form action="" method="post">
+                <form action="{{ route('auth.changePassword') }}" method="post">
+                    @csrf
+                    @method('PUT')
                     <div class="modal-body">
-                        @csrf
                         <div class="row">
                             <div class="col-md-6 mb-3 form-password-toggle">
                                 <div class="d-flex justify-content-between">
@@ -287,6 +288,11 @@
                                     <input type="password" id="oldPassword" class="form-control " required name="oldPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
+                                @error('oldPassword')
+                                <div id="oldPasswordHelp" class="form-text text-danger">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="row g-2">
@@ -298,15 +304,25 @@
                                     <input type="password" id="newPassword" class="form-control " required name="newPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
+                                @error('newPassword')
+                                <div id="newPasswordHelp" class="form-text text-danger">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                             <div class="col mb-0 form-password-toggle">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="confirmNewPassword">Confirm New Password</label>
                                 </div>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="confirmNewPassword" class="form-control  " required name="confirmNewPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
+                                    <input type="password" id="confirmNewPassword" class="form-control " required name="confirmNewPassword" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
                                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                                 </div>
+                                @error('confirmNewPassword')
+                                <div id="confirmNewPasswordHelp" class="form-text text-danger">
+                                    {{ $message }}
+                                </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -345,6 +361,14 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('script')
+    @if (session('errorFrom') === 'changePassword')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var myModal = new bootstrap.Modal(document.getElementById("changePasswordModal"));
+            myModal.show();
+        });
+    </script>
+    @endif
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var toastEl = document.getElementById("toast");

@@ -68,7 +68,7 @@
         <div class="toast-body">{{session('success')}}</div>
     </div>
     @endif
-    @if (session('error'))
+    @error('error')
     <div
         id="errorToast"
         class="bs-toast toast toast-placement-ex m-2  position-fixed top-0 end-0 bg-danger"
@@ -83,9 +83,9 @@
             <small>{{ date('l, d F Y') }}</small>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
-        <div class="toast-body">{{session('error')}}</div>
+        <div class="toast-body">{{ $message }}</div>
     </div>
-    @endif
+    @enderror
 
     <!-- Content -->
     <div class="container-xxl">
@@ -109,7 +109,6 @@
                             @csrf
                             @method('PUT')
                             <div class="mb-3 form-password-toggle">
-                                <input type="hidden" name="oldPassword" value="{{ auth()->user()->getAuthPassword() }}">
                                 <div class="d-flex justify-content-between">
                                     <label class="form-label" for="newPassword">New Password</label>
                                 </div>

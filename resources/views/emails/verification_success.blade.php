@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex justify-end gap-2">
-            <a href=""
+            <a href="{{ route('auth.index') }}"
                 class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm shadow transition-all">
                 Go to Login
             </a>
