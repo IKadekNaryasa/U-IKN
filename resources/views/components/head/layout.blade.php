@@ -116,28 +116,16 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item {{ $active == 'dashboard' ? 'active' : '' }} ">
-                        <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                        <a href="{{ route('head.dashboard.index') }}" class="menu-link">
                             <i class="menu-icon bx bxs-home"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
-                    <li class="menu-item {{ $active == 'users' ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <li class="menu-item {{ $active == 'users' ? 'active' : '' }} ">
+                        <a href="{{ route('head.users') }}" class="menu-link">
                             <i class="menu-icon bx bxs-user"></i>
-                            <div data-i18n="Account Settings">Users</div>
+                            <div data-i18n="Analytics">Users</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item {{ $open == 'view_users' ? 'active' : '' }}">
-                                <a href="{{ route('admin.users.index') }}" class="menu-link">
-                                    <div data-i18n="User Data">Users Data</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ $open == 'create_user' ? 'active' : '' }}">
-                                <a href="{{ route('admin.users.create') }}" class="menu-link">
-                                    <div data-i18n="Create User">Create User</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -197,7 +185,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                        <a class="dropdown-item" href="{{ route('head.profile') }}">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>

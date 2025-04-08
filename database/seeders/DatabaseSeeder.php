@@ -34,5 +34,19 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
         ]);
+        User::factory()->create([
+            'id' => Str::uuid(),
+            'name' => 'Chitos Teknisi',
+            'email' => 'chitos.teknisi@gmail.com',
+            'username' => 'chitos.teknisi',
+            'password' => Hash::make('12345678'),
+            'password_updated_at' => now(),
+            'logged_in' => false,
+            'status' => 'active',
+            'role' => 'technician',
+            'contact' => '087864365340',
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+        ]);
     }
 }

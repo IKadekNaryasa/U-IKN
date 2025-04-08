@@ -58,7 +58,19 @@ class AuthController extends Controller
             }
         }
 
-        return redirect()->route('admin.users.index')->with('success', 'Login success');
+        $routes = [
+            'admin' => 'admin.users.index',
+            'technician' => 'technician.profile',
+            'head' => 'head.dashboard.index'
+        ];
+
+        $role = $user->role;
+
+        if (array_key_exists($role, $routes)) {
+            return redirect()->route($routes[$role])->with('success', 'Login success!');
+        }
+
+        abort(404);
     }
 
     public function changePasswordView()

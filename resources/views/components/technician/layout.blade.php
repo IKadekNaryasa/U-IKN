@@ -115,29 +115,11 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item {{ $active == 'dashboard' ? 'active' : '' }} ">
-                        <a href="{{ route('admin.dashboard') }}" class="menu-link">
-                            <i class="menu-icon bx bxs-home"></i>
-                            <div data-i18n="Analytics">Dashboard</div>
-                        </a>
-                    </li>
-                    <li class="menu-item {{ $active == 'users' ? 'active open' : '' }}">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <li class="menu-item {{ $active == 'profile' ? 'active' : '' }} ">
+                        <a href="{{ route('technician.profile') }}" class="menu-link">
                             <i class="menu-icon bx bxs-user"></i>
-                            <div data-i18n="Account Settings">Users</div>
+                            <div data-i18n="Analytics">Profile</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item {{ $open == 'view_users' ? 'active' : '' }}">
-                                <a href="{{ route('admin.users.index') }}" class="menu-link">
-                                    <div data-i18n="User Data">Users Data</div>
-                                </a>
-                            </li>
-                            <li class="menu-item {{ $open == 'create_user' ? 'active' : '' }}">
-                                <a href="{{ route('admin.users.create') }}" class="menu-link">
-                                    <div data-i18n="Create User">Create User</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                 </ul>
             </aside>
@@ -196,12 +178,12 @@
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                    <!-- <li>
+                                        <a class="dropdown-item" href="{{ route('head.profile') }}">
                                             <i class="bx bx-user me-2"></i>
                                             <span class="align-middle">My Profile</span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <button class="dropdown-item" data-bs-toggle="modal"
                                             data-bs-target="#changePasswordModal">
