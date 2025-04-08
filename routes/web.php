@@ -55,6 +55,7 @@ Route::middleware(IKNAuth::class)->group(function () {
 });
 
 
-
+Route::get('/fogotPassword', [AuthController::class, 'forgotPassword'])->name('auth.forgotPassword');
+Route::put('/sendPassword', [AuthController::class, 'sendNewPassword'])->name('auth.sendPassword');
 
 Route::get('email/verify/{id}/{hash}', [EmailVerificationController::class, 'verify'])->name('verification.verify')->middleware(['signed']);

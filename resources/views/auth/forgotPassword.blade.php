@@ -100,52 +100,33 @@
                                 <span class="app-brand-logo demo">
                                     <!-- <img src="{{ asset('ikn_sneat/assets/img/icons/brands/toolkit.png') }}" alt="ToolKit" width="50"> -->
                                 </span>
-                                <span class="app-brand-text demo menu-text fw-semibold2" style="text-transform: none; font-size: 20px; color: #333;"><strong>U-IKN</strong></span>
+                                <span class="app-brand-text demo menu-text fw-semibold2" style="text-transform: none; font-size: 20px; color: #333;"><strong>Reset Password U-IKN</strong></span>
                             </a>
                         </div>
                         <!-- /Logo -->
 
-                        <form id="formAuthentication" class="mb-3" action="{{ route('auth.auth') }}" method="POST">
+                        <form id="resetPasswordForm" class="mb-3" action="{{ route('auth.sendPassword') }}" method="POST">
                             @csrf
+                            @method('PUT')
                             <div class="mb-3">
-                                <label for="email" class="form-label">Username</label>
-                                <input type="text" required value="{{ old('username') }}" class="form-control   @error('username') is-invalid @enderror" id="username" name="username" placeholder="Enter username" aria-describedby="usernameHelp" autofocus />
-                                @error('username')
-                                <div id="usernameHelp" class="form-text text-danger">
+                                <label for="email" class="form-label">email</label>
+                                <input type="email" required value="{{ old('email') }}" class="form-control   @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter Your Email" aria-describedby="emailHelp" autofocus />
+                                @error('email')
+                                <div id="emailHelp" class="form-text text-danger">
                                     {{ $message }}
                                 </div>
                                 @enderror
                                 @error('login')
-                                <div id="usernameHelp" class="form-text text-danger">
+                                <div id="emailHelp" class="form-text text-danger">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                            <div class="mb-3 form-password-toggle">
-                                <div class="d-flex justify-content-between">
-                                    <label class="form-label" for="password">Password</label>
-                                </div>
-                                <div class="input-group input-group-merge">
-                                    <input type="password" required id="password" class="form-control   @error('password') is-invalid @enderror" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                                </div>
-                                <a href="{{ route('auth.forgotPassword') }}">
-                                    <small>Forgot Password?</small>
-                                </a>
-                                @error('password')
-                                <div id="passwordHelp" class="form-text text-danger">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                            <!-- <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                                </div>
-                            </div> -->
-                            <div class="mb-3">
-                                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                            <div class="mb-3 ">
+                                <button id="submitBtn" class="btn btn-md btn-primary w-100" type="submit">
+                                    <span id="submitText">Reset & send new password</span>
+                                    <span id="submitSpinner" class="spinner-border spinner-border-sm text-success d-none" role="status" aria-hidden="true"></span>
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -185,6 +166,17 @@
                 var toast = new bootstrap.Toast(errorToastEl);
                 toast.show();
             }
+        });
+
+        document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
+            const btn = document.getElementById('submitBtn');
+            const text = document.getElementById('submitText');
+            const spinner = document.getElementById('submitSpinner');
+
+            text.textContent = 'reseting...';
+            spinner.classList.remove('d-none');
+
+            btn.disabled = true;
         });
     </script>
 </body>

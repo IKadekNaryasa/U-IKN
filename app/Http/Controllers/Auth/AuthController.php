@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Mail\resetPasswordMail;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -63,6 +64,7 @@ class AuthController extends Controller
             'technician' => 'technician.profile',
             'head' => 'head.dashboard.index'
         ];
+
 
         $role = $user->role;
 
@@ -234,5 +236,39 @@ class AuthController extends Controller
         }
         session()->regenerate();
         return redirect()->route('admin.users.index')->with('success', 'Data updated!');
+    }
+
+    public function forgotPassword()
+    {
+        return view('auth.forgotPassword');
+    }
+
+    public function sendNewPassword(Request $request)
+    {
+        $sanitize = [
+            'email' => e(trim($request->input('email')))
+        ];
+
+        $credential = Validator::make($sanitize, [
+            'email' => ['required', 'email', 'exists:users,email']
+        ])->validate();
+
+        $user = User::where('email', $credential['email'])->first();
+
+        DB::transaction(function () use ($credential, $user) {
+            $password = Str::random();
+            $user->update([
+                'password_updated_at' => null,
+                'password' => Hash::make($password)
+            ]);
+
+            Mail::to($user->email)->send(new resetPasswordMail(
+                $user->name,
+                $user->username,
+                $password
+            ));
+        });
+
+        return redirect()->route('auth.index')->with('success', 'Password reseted! check your email to get a new password!');
     }
 }
