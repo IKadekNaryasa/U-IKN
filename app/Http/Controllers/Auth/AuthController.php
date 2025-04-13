@@ -57,22 +57,21 @@ class AuthController extends Controller
             if ($verified->password_updated_at === null) {
                 return redirect()->route('auth.changePasswordView')->with('success', 'Login success! Change password first to keep safety!');
             }
+            $routes = [
+                'admin' => 'admin.users.index',
+                'technician' => 'technician.profile',
+                'head' => 'head.dashboard.index'
+            ];
+
+
+            $role = $user->role;
+
+            if (array_key_exists($role, $routes)) {
+                return redirect()->route($routes[$role])->with('success', 'Login success!');
+            }
+            abort(404);
         }
-
-        $routes = [
-            'admin' => 'admin.users.index',
-            'technician' => 'technician.profile',
-            'head' => 'head.dashboard.index'
-        ];
-
-
-        $role = $user->role;
-
-        if (array_key_exists($role, $routes)) {
-            return redirect()->route($routes[$role])->with('success', 'Login success!');
-        }
-
-        abort(404);
+        return redirect()->route('auth.index')->with('error', 'invalid username or password!');
     }
 
     public function changePasswordView()
@@ -195,7 +194,7 @@ class AuthController extends Controller
                     'hash' => sha1($user->email)
                 ]);
 
-                Mail::to($user->email)->send(new VerificationMail(
+                Mail::to($user->email)->queue(new VerificationMail(
                     $user->username,
                     $password,
                     $user->name,
